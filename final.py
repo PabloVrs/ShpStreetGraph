@@ -15,6 +15,10 @@ class Shp2Graph:
         self.result = None
         self.intersections = None
         self.graph = None
+        self.Id = None
+        self.intersections = None
+        self.id_intersections = None
+        self.representation = None
 
     def read_yaml(self, file_path):
         # Read the YAML configuration file
@@ -24,6 +28,9 @@ class Shp2Graph:
     def read_shapefile(self, file_path):
         # Read shapefile and convert it to the specified ESPG projection
         gdf = gpd.read_file(file_path)
+        timestamp = datetime.now().strftime("%Y%m%d%H%M")
+        basename = os.path.basename(file_path)
+        self.filename = f"Shp2Graph_{basename}_{timestamp}"
         return gdf.to_crs(self.config['EPSG'])
 
     def compute_full_names(self):
@@ -35,7 +42,7 @@ class Shp2Graph:
             unknown_count = 1
 
             # Iterate through each row and combine the names to get the full name
-            for row in self.data.iterrows():
+            for index, row in self.data.iterrows():
                 valid_values = [str(row[field])
                                 for field in fields if pd.notnull(row[field])]
 
@@ -115,10 +122,9 @@ class Shp2Graph:
     def export_csv(self):
         # Export the adjacency list to CSV format
         if self.config['output_format_adjlist']:
-            timestamp = datetime.now().strftime("%Y%m%d%H%M")
 
             if self.config['street'] == 'nodes':
-                filename = f"shp2graph_edges_{timestamp}.csv"
+                filename = f"edges_{self.filename}.csv"
 
                 with open(filename, 'w', newline='') as csv_file:
                     csv_writer = csv.writer(csv_file)
@@ -127,31 +133,34 @@ class Shp2Graph:
                     for idx, intersect in enumerate(self.representation, start=1):
                         csv_writer.writerow([idx] + list(intersect))
 
-                self.result.to_csv(f"shp2graph_nodes{timestamp}.csv")
+                self.result.to_csv(f"nodes_{self.filename}.csv")
+                print(f"Adjacency list exported to edges_{self.filename}.csv (CSV format).")
 
             elif self.config['street'] == 'edges':
-                filename = f"shp2graph_nodes_{timestamp}.csv"
+                filename = f"nodes_{self.filename}.csv"
 
                 with open(filename, 'w', newline='') as csv_file:
                     csv_writer = csv.writer(csv_file)
                     csv_writer.writerow(['id', 'intersections'])
 
-                    for idx, node in enumerate(self.graph.nodes(), start=1):
+                    for idx, node in enumerate(sorted(self.graph.nodes()), start=1):
                         csv_writer.writerow([idx, node])
 
-                self.result.to_csv(f"shp2graph_edges_{timestamp}.csv")
+                self.result.to_csv(f"edges_{self.filename}.csv")
+            
+                print(f"Adjacency list exported to nodes_{self.filename}.csv (CSV format).")
 
     def export_graphml(self):
         # Export the graph to GraphML format
         if self.config['output_format_graphml']:
-            nx.write_graphml(self.graph, "shp2graph_filename_graph.graphml")
-            print("Graph exported to shp2graph_filename_graph.graphml (GraphML format).")
+            nx.write_graphml(self.graph, f"{self.filename}.graphml")
+            print(f"Graph exported to {self.filename}.graphml (GraphML format).")
 
     def export_pajek(self):
         # Export the graph to Pajek format
         if self.config['output_format_pajek']:
-            nx.write_pajek(self.graph, "shp2graph_filename_graph.pajek")
-            print("Graph exported to shp2graph_filename_graph.pajek (Pajek format).")
+            nx.write_pajek(self.graph, f"{self.filename}.pajek")
+            print(f"Graph exported to {self.filename}.pajek (Pajek format).")
 
     def export_graph(self):
         # Call the export functions
