@@ -6,7 +6,8 @@ Shp2Graph is a Python tool designed to convert shapefiles into graph representat
 
 - [Installation](#installation)
 - [Usage](#usage)
-- [Configuration File](#configuration-file)
+  - [Command Line Arguments](#command-line-arguments)
+  - [Configuration File](#configuration-file)
 - [Example](#example)
 - [License](#license)
 
@@ -81,9 +82,9 @@ shp2graph -s path/to/your/shapefile.shp -p
 ## Example
 1. Create a configuration file `config.yaml` with your desired settings.
 2. Run the script with your shapefile.
-```bash
-shp2graph -s path/to/your/shapefile.shp
-```
+
+    shp2graph -s path/to/your/shapefile.shp
+
 3. The script will process the shapefile and output the results in the specified formats.
 
-
+## License
