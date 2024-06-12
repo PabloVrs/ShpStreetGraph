@@ -5,7 +5,7 @@ output_format_adjlist: True
 output_format_graphml: False
 output_format_pajek: False 
 
-street_representation: street_name #id or street_name
+street_representation: id #id or street_name
 
 street_identifier_field:
   - NM_TIP_LOG
@@ -14,3 +14,5 @@ street_identifier_field:
 
 
 EPSG: '32723' #Latin America
+
+num_processes: 1
