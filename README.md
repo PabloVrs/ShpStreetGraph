@@ -24,8 +24,9 @@ pip install geopandas pandas pyyaml networkx rtree
 The main script can be run from the command line. It requires a path to a shapefile and a configuration file.
 
 ### Command Line Arguments
-- `-s, --shapefile`: Path to the shapefile (required).
-- `-p, --print_head`: Print the head of the GeoDataFrame and exit.
+- `-s`, `--shapefile`: Path to the shapefile (required).
+- `-p`, `--print_head`: Print the head of the GeoDataFrame and exit.
+- `-h`, `--help`: Show the list of options.
 
 ### Configuration File
 
