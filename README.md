@@ -83,8 +83,9 @@ shp2graph -s path/to/your/shapefile.shp -p
 1. Create a configuration file `config.yaml` with your desired settings.
 2. Run the script with your shapefile.
 
-    shp2graph -s path/to/your/shapefile.shp
-
+  ```bash
+  shp2graph -s path/to/your/shapefile.shp
+  ```
 3. The script will process the shapefile and output the results in the specified formats.
 
 ## License
