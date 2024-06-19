@@ -1,4 +1,4 @@
-# Shp2Graph: Convert Shapefiles to Graph Representations
+# ShpStreetGraph: Convert Streets Intersections from shp to Graph Representations
 
 Shp2Graph is a Python tool designed to convert shapefiles into graph representations. This tool uses the `geopandas` library for handling shapefiles, `networkx` for graph representation, and `rtree` for spatial indexing. It allows for various graph export formats such as CSV, GraphML, and Pajek.
 
