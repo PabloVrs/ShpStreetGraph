@@ -13,11 +13,33 @@ Shp2Graph is a Python tool designed to convert shapefiles into graph representat
 
 ## Installation
 
-To use Shp2Graph, you need to have Python 3.x installed. You can install the required dependencies using pip:
+You can install this program in two different ways:
 
-```bash
-pip install geopandas pandas pyyaml networkx rtree
-```
+### Option 1: Installing via deb package
+
+1. Download the .deb package from the releases section:
+
+  ```bash
+  wget https://example.com/path/to/package.deb
+  ```
+2. Extract the package using dpkg:
+
+  ```bash
+  sudo dpkg -i python3-shp2graph_1.0-1_all.deb
+  ```
+3. The program will be ready to use.
+
+### Option 2: Manual Installation
+
+1. Download the setup.py and the shp2graph.py files.
+  ```bash
+  wget https://example.com/path/to/setup.py
+  wget https://example.com/path/to/shp2graph.py
+  ```
+
+2. Package the files (if necessary) and execute the program from the generated package.
+
+Choose the installation option that best suits your preferences and needs.
 
 ## Usage
 
@@ -88,5 +110,10 @@ shp2graph -s path/to/your/shapefile.shp -p
   shp2graph -s path/to/your/shapefile.shp
   ```
 3. The script will process the shapefile and output the results in the specified formats.
+
+Using a short part of Price, a city from Utah:
+
+
+
 
 ## License
