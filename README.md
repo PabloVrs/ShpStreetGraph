@@ -111,9 +111,23 @@ shp2graph -s path/to/your/shapefile.shp -p
   ```
 3. The script will process the shapefile and output the results in the specified formats.
 
-Using a short part of Price, a city from Utah:
+Using a small part of Price, a city from Utah for different config settings:
 
 
+| `spatial_operations: intersection` | `spatial_operations: distance` |
+|:--------------------------------:|:--------------------------------:|
+| ![example](https://github.com/PabloVrs/shp2graph/blob/main/images/example.png) | ![buffered_example](https://github.com/PabloVrs/shp2graph/blob/main/images/buffered_example.png) |
+| **CSV Output 1** | **CSV Output 2** |
+
+| id | from | to | id | from | to |
+|---|---|---|---|---|---|
+| 7 | East Ninth North | North 100 East | 7 | East Ninth North | North 100 East |
+| 8 | East Ninth North | North East First Street | 8 | East Ninth North | North East First Street |
+| 14 | Hillcrest Drive | North 100 East | 14 | Hillcrest Drive | North 100 East |
+| 18 | North 100 East | Covecrest Street | 18 | North 100 East | North East First Street |
+| | | | 19 | North 100 East | Covecrest Street |
+
+Note that using `distance`, with the specific radius, the streets "North 100 East" and "North East First Street" intersect!
 
 
 ## License
