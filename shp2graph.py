@@ -287,5 +287,5 @@ def main():
     analyzer.process_graph(id_intersections)
 
 
-if __name__ == "_main_":
+if __name__ == "__main__":
     main()
