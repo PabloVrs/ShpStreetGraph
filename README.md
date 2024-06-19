@@ -111,7 +111,7 @@ shp2graph -s path/to/your/shapefile.shp -p
   ```
 3. The script will process the shapefile and output the results in the specified formats.
 
-Using a small part of Price, a city from Utah for different config settings:
+### Using a small part of Price, a city from Utah for different config settings:
 
 
 | `spatial_operations: intersection` | `spatial_operations: distance` |
@@ -131,3 +131,5 @@ Note that using `distance`, with the specific radius, the streets "North 100 Eas
 
 
 ## License
+
+This project is licensed under the GNU General Public License version 3 (GPLv3) - see the [LICENSE](COPYING.TXT) file for details.
