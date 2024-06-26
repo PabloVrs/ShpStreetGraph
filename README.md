@@ -1,6 +1,6 @@
-# Shp2Graph: Convert Shapefiles to Graph Representations
+# ShpStreetGraph: Streets Intersections to Graph Representations
 
-Shp2Graph is a Python tool designed to convert shapefiles into graph representations. This tool uses the `geopandas` library for handling shapefiles, `networkx` for graph representation, and `rtree` for spatial indexing. It allows for various graph export formats such as CSV, GraphML, and Pajek.
+ShpStreetGraph is a Python tool designed to convert shapefiles into graph representations. This tool uses the `geopandas` library for handling shapefiles, `networkx` for graph representation, and `rtree` for spatial indexing. It allows for various graph export formats such as CSV, GraphML, and Pajek.
 
 ## Table of Contents
 
@@ -25,16 +25,16 @@ You can install this program in two different ways:
 2. Extract the package using dpkg:
 
   ```bash
-  sudo dpkg -i python3-shp2graph_1.0-1_all.deb
+  sudo dpkg -i python3-shpstreetgraph.0-1_all.deb
   ```
 3. The program will be ready to use.
 
 ### Option 2: Manual Installation
 
-1. Download the setup.py and the shp2graph.py files.
+1. Download the setup.py and the shpstreetgraph.py files.
   ```bash
   wget https://example.com/path/to/setup.py
-  wget https://example.com/path/to/shp2graph.py
+  wget https://example.com/path/to/shpstreetgraph.py
   ```
 
 2. Package the files (if necessary) and execute the program from the generated package.
@@ -52,7 +52,7 @@ The main script can be run from the command line. It requires a path to a shapef
 
 ### Configuration File
 
-Shp2Graph requires a YAML configuration file to specify various parameters for processing the shapefile. Below is an example configuration file (`config.yaml`):
+ShpStreetGraph requires a YAML configuration file to specify various parameters for processing the shapefile. Below is an example configuration file (`config.yaml`):
 
 ```yaml
 street: nodes #nodes or edges
@@ -107,13 +107,29 @@ shp2graph -s path/to/your/shapefile.shp -p
 2. Run the script with your shapefile.
 
   ```bash
-  shp2graph -s path/to/your/shapefile.shp
+  shpstreetgraph -s path/to/your/shapefile.shp
   ```
 3. The script will process the shapefile and output the results in the specified formats.
 
-Using a short part of Price, a city from Utah:
+#### Using a shp from a small part of Price, a city from Utah for different config settings:
 
 
+| `spatial_operations: intersection` | `spatial_operations: distance` |
+|:--------------------------------:|:--------------------------------:|
+| ![example](https://github.com/PabloVrs/shp2graph/blob/main/images/example.png) | ![buffered_example](https://github.com/PabloVrs/shp2graph/blob/main/images/buffered_example.png) |
+| **CSV Output 1** | **CSV Output 2** |
+
+| id | from | to | id | from | to |
+|---|---|---|---|---|---|
+| 7 | East Ninth North | North 100 East | 7 | East Ninth North | North 100 East |
+| 8 | East Ninth North | North East First Street | 8 | East Ninth North | North East First Street |
+| 14 | Hillcrest Drive | North 100 East | 14 | Hillcrest Drive | North 100 East |
+| 18 | North 100 East | Covecrest Street | 18 | North 100 East | North East First Street |
+| | | | 19 | North 100 East | Covecrest Street |
+
+Note that using `distance`, with the specific radius, the streets "North 100 East" and "North East First Street" intersect!
 
 
 ## License
+
+This project is licensed under the GNU General Public License version 3 (GPLv3) - see the [LICENSE](COPYING.txt) file for details.
