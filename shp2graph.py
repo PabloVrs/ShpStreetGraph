@@ -8,7 +8,7 @@ import os
 import argparse
 from rtree import index
 import multiprocessing
-
+import matplotlib.pyplot as plt
 
 class Shp2Graph:
     def __init__(self, config_file, shapefile_path):
@@ -190,15 +190,15 @@ class Shp2Graph:
                 self.result.to_csv(os.path.join(self.output_dir, "nodes.csv"))
                 print(f"Adjacency list exported to edges.csv (CSV format).")
 
-            elif self.config['street'] == 'edges':
-                filepath = os.path.join(self.output_dir, "nodes.csv")
-                with open(filepath, 'w', newline='') as csv_file:
-                    csv_writer = csv.writer(csv_file)
-                    csv_writer.writerow(['id', 'intersections'])
-                    for idx, node in enumerate(sorted(self.graph.nodes()), start=1):
-                        csv_writer.writerow([idx, node])
-                self.result.to_csv(os.path.join(self.output_dir, "edges.csv"))
-                print(f"Adjacency list exported to nodes.csv (CSV format).")
+        elif self.config['street'] == 'edges':
+            filepath = os.path.join(self.output_dir, "nodes.csv")
+            with open(filepath, 'w', newline='') as csv_file:
+                csv_writer = csv.writer(csv_file)
+                csv_writer.writerow(['id', 'intersections'])
+                for idx, node in enumerate(sorted(self.graph.nodes()), start=1):
+                    csv_writer.writerow([idx, node])
+            self.result.to_csv(os.path.join(self.output_dir, "edges.csv"))
+            print(f"Adjacency list exported to nodes.csv (CSV format).")
 
     def export_graphml(self):
         """
@@ -261,8 +261,8 @@ def main():
         print(analyzer.data.head(3))
         return
 
-    result = analyzer.compute_full_names()
-    idxi = result.index
+    analyzer.result = analyzer.compute_full_names()
+    idxi = analyzer.result.index
 
     num_processes = analyzer.config['num_processes']
     chunk_size = len(idxi) // num_processes
@@ -287,5 +287,5 @@ def main():
     analyzer.process_graph(id_intersections)
 
 
-if __name__ == "_main_":
+if __name__ == "__main__":
     main()

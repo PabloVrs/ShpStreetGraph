@@ -1,17 +1,13 @@
-street: edges #nodes or edges
-spatial_operations: intersection #intersection or distance
-distance_km: 0 #distance in km
+street: nodes #nodes or edges
+spatial_operations: distance #intersection or distance
+distance_km: 60 #distance in km
 output_format_adjlist: True 
 output_format_graphml: False
 output_format_pajek: False 
 
-street_representation: id #id or street_name
+street_representation: street_name #id or street_name
 
-street_identifier_field:
-  - NM_TIP_LOG
-  - NM_TIT_LOG
-  - NM_LOG
-
+street_identifier_field: name
 
 EPSG: '32723' #Latin America
 
