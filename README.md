@@ -20,7 +20,7 @@ You can install this program in two different ways:
 1. Download the .deb package from the releases section:
 
   ```bash
-  wget https://example.com/path/to/package.deb
+  wget https://github.com/PabloVrs/ShpStreetGraph/blob/main/package.deb
   ```
 2. Extract the package using dpkg:
 
@@ -29,17 +29,20 @@ You can install this program in two different ways:
   ```
 3. The program will be ready to use.
 
-### Option 2: Manual Installation
+### Option 2: Packaging the files.
 
 1. Download the setup.py and the shpstreetgraph.py files.
   ```bash
-  wget https://example.com/path/to/setup.py
-  wget https://example.com/path/to/shpstreetgraph.py
+  wget https://github.com/PabloVrs/ShpStreetGraph/blob/main/setup.py
+  wget https://github.com/PabloVrs/ShpStreetGraph/blob/main/shpstreetgraph.py
   ```
 
-2. Package the files (if necessary) and execute the program from the generated package.
-
-Choose the installation option that best suits your preferences and needs.
+2. Package the files.
+  ```bash
+  python3 setup.py --command-packages=stdeb.command bdist_deb
+  ```
+ 
+### Choose the installation option that best suits your preferences and needs.
 
 ## Usage
 
