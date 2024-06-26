@@ -132,6 +132,7 @@ shp2graph -s path/to/your/shapefile.shp -p
 
 Note that using `distance`, with the specific radius, the streets "North 100 East" and "North East First Street" intersect!
 
+The example files are available at [examples](https://github.com/PabloVrs/ShpStreetGraph/tree/main/examples).
 
 ## License
 
