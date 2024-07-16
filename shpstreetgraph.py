@@ -1,4 +1,3 @@
-
 # ShpStreetGraph
 # Copyright (C) [2024] []
 
@@ -11,18 +10,16 @@
 # You should have received a copy of the GNU General Public License along with this program.
 # If not, see <https://www.gnu.org/licenses/>
 
-
-import geopandas as gpd
-import pandas as pd
-import yaml
-import networkx as nx
 import csv
-from datetime import datetime
+import yaml
 import os
 import argparse
 from rtree import index
 import multiprocessing
-import matplotlib.pyplot as plt
+from datetime import datetime
+import geopandas as gpd
+import pandas as pd
+import networkx as nx
 
 class Shp2Graph:
     def __init__(self, config_file, shapefile_path):
@@ -90,9 +87,9 @@ class Shp2Graph:
             self.result = self.data.dissolve(by='Full Name').reset_index()
             self.Id = "Full Name"
         else:
-            self.result = self.data
             self.Id = self.config['street_identifier_field']
-
+            self.result = self.data.dissolve(by=self.Id).reset_index()
+            print(self.result)
         return self.result
 
     def get_IDX(self):
@@ -202,17 +199,17 @@ class Shp2Graph:
                     for idx, intersect in enumerate(self.representation, start=1):
                         csv_writer.writerow([idx] + list(intersect))
                 self.result.to_csv(os.path.join(self.output_dir, "nodes.csv"))
-                print(f"Adjacency list exported to edges.csv (CSV format).")
+                print("Adjacency list exported to edges.csv (CSV format).")
 
-        elif self.config['street'] == 'edges':
-            filepath = os.path.join(self.output_dir, "nodes.csv")
-            with open(filepath, 'w', newline='') as csv_file:
-                csv_writer = csv.writer(csv_file)
-                csv_writer.writerow(['id', 'intersections'])
-                for idx, node in enumerate(sorted(self.graph.nodes()), start=1):
-                    csv_writer.writerow([idx, node])
-            self.result.to_csv(os.path.join(self.output_dir, "edges.csv"))
-            print(f"Adjacency list exported to nodes.csv (CSV format).")
+            elif self.config['street'] == 'edges':
+                filepath = os.path.join(self.output_dir, "nodes.csv")
+                with open(filepath, 'w', newline='') as csv_file:
+                    csv_writer = csv.writer(csv_file)
+                    csv_writer.writerow(['id', 'intersections'])
+                    for idx, node in enumerate(sorted(self.graph.nodes()), start=1):
+                        csv_writer.writerow([idx, node])
+                self.result.to_csv(os.path.join(self.output_dir, "edges.csv"))
+                print("Adjacency list exported to nodes.csv (CSV format).")
 
     def export_graphml(self):
         """
@@ -221,7 +218,7 @@ class Shp2Graph:
         if self.config['output_format_graphml']:
             filepath = os.path.join(self.output_dir, "graph.graphml")
             nx.write_graphml(self.graph, filepath)
-            print(f"Graph exported to graph.graphml (GraphML format).")
+            print("Graph exported to graph.graphml (GraphML format).")
 
     def export_pajek(self):
         """
@@ -230,7 +227,7 @@ class Shp2Graph:
         if self.config['output_format_pajek']:
             filepath = os.path.join(self.output_dir, "graph.pajek")
             nx.write_pajek(self.graph, filepath)
-            print(f"Graph exported to graph.pajek (Pajek format).")
+            print("Graph exported to graph.pajek (Pajek format).")
 
     def export_graph(self):
         """
@@ -279,6 +276,9 @@ def main():
     idxi = analyzer.result.index
 
     num_processes = analyzer.config['num_processes']
+    if multiprocessing.cpu_count() <= num_processes:
+        num_processes = multiprocessing.cpu_count - 1
+
     chunk_size = len(idxi) // num_processes
     idx_chunks = [idxi[i:i + chunk_size]
                   for i in range(0, len(idxi), chunk_size)]
