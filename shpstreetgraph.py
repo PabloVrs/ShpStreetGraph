@@ -21,7 +21,7 @@ import geopandas as gpd
 import pandas as pd
 import networkx as nx
 
-class Shp2Graph:
+class ShpStreetGraph:
     def __init__(self, config_file, shapefile_path):
         """
         Initialize Shp2Graph class.
@@ -89,7 +89,6 @@ class Shp2Graph:
         else:
             self.Id = self.config['street_identifier_field']
             self.result = self.data.dissolve(by=self.Id).reset_index()
-            print(self.result)
         return self.result
 
     def get_IDX(self):
@@ -265,7 +264,7 @@ def main():
     Main function to execute the conversion process.
     """
     args = get_arguments()
-    analyzer = Shp2Graph('config.yaml', args.shapefile)
+    analyzer = ShpStreetGraph('config.yaml', args.shapefile)
 
     if args.print_head:
         pd.set_option('display.max_columns', None)

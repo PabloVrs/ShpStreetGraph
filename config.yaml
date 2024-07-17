@@ -11,7 +11,7 @@
 # You should have received a copy of the GNU General Public License along with this program.
 # If not, see <https://www.gnu.org/licenses/>
 
-street: edges #nodes or edges
+street: nodes #nodes or edges
 spatial_operations: intersection #intersection or distance
 distance_km: 0 #distance in km
 output_format_adjlist: True 
