@@ -20,12 +20,12 @@ You can install this program in two different ways:
 1. Download the .deb package from the releases section:
 
   ```bash
-  wget https://github.com/PabloVrs/ShpStreetGraph/blob/main/package.deb
+  wget https://github.com/PabloVrs/ShpStreetGraph/blob/main/shpstreetgraph_1.0.0.deb
   ```
 2. Extract the package using dpkg:
 
   ```bash
-  sudo dpkg -i python3-shpstreetgraph.0-1_all.deb
+  sudo dpkg -i shpstreetgraph_1.0.0.deb
   ```
 3. The program will be ready to use.
 
