@@ -48,7 +48,7 @@ You can set up this program in two different ways:
   sudo dpkg -i shpstreetgraph_1.0.0.deb
   ```
  
-### Choose the installation option that best suits your preferences and needs.
+### Choose the setup option that best suits your preferences and needs.
 
 ## Usage
 
