@@ -4,14 +4,14 @@ ShpStreetGraph is a Python tool designed to convert shapefiles into graph repres
 
 ## Table of Contents
 
-- [Installation](#installation)
+- [Getting Started](#getting-started)
 - [Usage](#usage)
   - [Command Line Arguments](#command-line-arguments)
   - [Configuration File](#configuration-file)
 - [Example](#example)
 - [License](#license)
 
-## Installation
+## Getting Started
 
 You can install this program in two different ways:
 
@@ -22,7 +22,7 @@ You can install this program in two different ways:
   ```bash
   wget https://github.com/PabloVrs/ShpStreetGraph/blob/main/shpstreetgraph_1.0.0.deb
   ```
-2. Extract the package using dpkg:
+2. Install the package using dpkg:
 
   ```bash
   sudo dpkg -i shpstreetgraph_1.0.0.deb
@@ -40,6 +40,12 @@ You can install this program in two different ways:
 2. Package the files.
   ```bash
   python3 setup.py --command-packages=stdeb.command bdist_deb
+  ```
+
+3. Install the package using dpkg:
+   
+  ```bash
+  sudo dpkg -i shpstreetgraph_1.0.0.deb
   ```
  
 ### Choose the installation option that best suits your preferences and needs.
