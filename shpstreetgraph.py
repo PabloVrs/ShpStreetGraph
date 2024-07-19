@@ -276,7 +276,7 @@ def main():
 
     num_processes = analyzer.config['num_processes']
     if multiprocessing.cpu_count() <= num_processes:
-        num_processes = multiprocessing.cpu_count - 1
+        num_processes = multiprocessing.cpu_count() - 1
 
     chunk_size = len(idxi) // num_processes
     idx_chunks = [idxi[i:i + chunk_size]
