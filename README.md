@@ -107,7 +107,7 @@ num_processes: 1
 
 - `num_processes`: Number of processes to use for multiprocessing.
 
-If how the street names are represented in the shapefile is not known, you can print the head of the geodataframe:
+When you are not certain about the street names, you can print the head of the geodataframe:
 ```bash
 shpstreetgraph -s path/to/your/shapefile.shp -p
 ```
