@@ -13,7 +13,7 @@ ShpStreetGraph is a Python tool designed to convert shapefiles into graph repres
 
 ## Getting Started
 
-You can install this program in two different ways:
+You can set up this program in two different ways:
 
 ### Option 1: Installing via deb package
 
@@ -109,7 +109,7 @@ num_processes: 1
 
 If how the street names are represented in the shapefile is not known, you can print the head of the geodataframe:
 ```bash
-shp2graph -s path/to/your/shapefile.shp -p
+shpstreetgraph -s path/to/your/shapefile.shp -p
 ```
 ## Example
 1. Create a configuration file `config.yaml` with your desired settings.
@@ -125,7 +125,7 @@ shp2graph -s path/to/your/shapefile.shp -p
 
 | `spatial_operations: intersection` | `spatial_operations: distance` |
 |:--------------------------------:|:--------------------------------:|
-| ![example](https://github.com/PabloVrs/shp2graph/blob/main/images/example.png) | ![buffered_example](https://github.com/PabloVrs/shp2graph/blob/main/images/buffered_example.png) |
+| ![example](https://github.com/PabloVrs/ShpStreetGraph/blob/main/images/example.png) | ![buffered_example](https://github.com/PabloVrs/ShpStreetGraph/blob/main/images/buffered_example.png) |
 | **CSV Output 1** | **CSV Output 2** |
 
 | id | from | to | id | from | to |
