@@ -31,18 +31,24 @@ You can set up this program in two different ways:
 
 ### Option 2: Packaging the files.
 
-1. Download the setup.py and the shpstreetgraph.py files.
+1. Install `stdeb` package:
+   
+  ```bash
+  pip install stdeb
+  ```
+ 
+2. Download the setup.py and the shpstreetgraph.py files.
   ```bash
   wget https://github.com/PabloVrs/ShpStreetGraph/blob/main/setup.py
   wget https://github.com/PabloVrs/ShpStreetGraph/blob/main/shpstreetgraph.py
   ```
 
-2. Package the files.
+3. Package the files.
   ```bash
   python3 setup.py --command-packages=stdeb.command bdist_deb
   ```
 
-3. Install the package using dpkg:
+4. Install the package using dpkg:
    
   ```bash
   sudo dpkg -i shpstreetgraph_1.0.0.deb
