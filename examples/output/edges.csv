@@ -1,0 +1,26 @@
+id,from,to
+1,Covecrest Street,Drexel Street
+2,Covecrest Street,North 100 East
+3,Covecrest Street,North 200 East
+4,Covecrest Street,North 300 East
+5,Covecrest Street,North Smith Drive
+6,Drexel Street,Hillcrest Drive
+7,East Ninth North,Hillcrest Drive
+8,East Ninth North,North 100 East
+9,East Ninth North,North 200 East
+10,East Ninth North,North 300 East
+11,East Ninth North,North East First Street
+12,East Ninth North,North Smith Drive
+13,East Ninth North,North Third East
+14,East Ninth North,Wadleigh Lane
+15,East Ninth North,Wood Drive
+16,Hillcrest Drive,North 100 East
+17,Hillcrest Drive,North 200 East
+18,Hillcrest Drive,North Smith Drive
+19,Hillcrest Drive,Smith Circle
+20,Hillcrest Drive,Wood Drive
+21,North 100 East,North East First Street
+22,North 300 East,North Third East
+23,North Smith Drive,Smith Circle
+24,North Smith Drive,Wadleigh Lane
+25,North Smith Drive,Wood Drive
