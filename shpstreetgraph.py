@@ -68,7 +68,7 @@ class ShpStreetGraph:
         self.basename = os.path.basename(file_path)[:-4]
         gdf = gpd.read_file(file_path)
         if self.config['EPSG']:
-            return gdf.to_crs(self.config['EPSG'])
+            return gdf.to_crs(epsg = self.config['EPSG'])
         else:
             return gdf
 
@@ -254,11 +254,14 @@ def get_arguments():
     Returns:
         Namespace: Parsed arguments.
     """
-    parser = argparse.ArgumentParser(description='Convert shp to graphs')
+    parser = argparse.ArgumentParser(description = 'Convert shp to graphs')
     parser.add_argument('-s', '--shapefile', type=str,
-                        required=True, help='Path to shapefile')
-    parser.add_argument('-p', '--print_head', action='store_true',
-                        help='Print the head of the GeoDataFrame')
+                        required = True, help = 'Path to shapefile')
+    parser.add_argument('-p', '--print_head', action = 'store_true',
+                        help = 'Print the head of the GeoDataFrame')
+    parser.add_argument('-e', '--EPSG', action = 'store_true',
+                        help = "Show the CRS (Coordinate Reference System) of your shapefile")
+
     return parser.parse_args()
 
 
@@ -272,6 +275,10 @@ def main():
     if args.print_head:
         pd.set_option('display.max_columns', None)
         print(analyzer.data.head(3))
+        return
+    
+    if args.EPSG:
+        print(repr(analyzer.data.crs))
         return
 
     analyzer.result = analyzer.compute_full_names()
