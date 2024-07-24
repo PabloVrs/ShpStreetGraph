@@ -72,7 +72,7 @@ ShpStreetGraph requires a YAML configuration file to specify various parameters 
 ```yaml
 street: nodes #nodes or edges
 spatial_operations: intersection #intersection or distance
-distance_km: 0 #distance in km
+distance_range: 100 #distance used for buffering streets (depends on the EPSG)
 output_format_adjlist: True 
 output_format_graphml: True
 output_format_pajek: True
@@ -84,7 +84,7 @@ street_identifier_field:
   - Field2
   - Field3
 
-EPSG: '32723' #Latin America
+EPSG: False #Set EPSG or use False to default
 
 num_processes: 1
 ```
@@ -93,7 +93,7 @@ num_processes: 1
 
 - `spatial_operations`: Type of spatial operation (intersection or distance).
 
-- `distance_km`: Buffer distance in kilometers for spatial operations.
+- `distance_range`: distance used for buffering streets in spatial operations (depends on the EPSG).
   
 - `output_format_adjlist`: Whether to export the adjacency list in CSV format.
 - `output_format_graphml`: Whether to export the graph in GraphML format.
