@@ -27,7 +27,7 @@ setup(
 
     entry_points={
         'console_scripts': [
-            'shpstreetgraph=shpstreetgraph.shpstreetgraph:main'
+            'shpstreetgraph=shpstreetgraph:main'
         ]
     },
 
