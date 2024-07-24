@@ -140,7 +140,7 @@ class ShpStreetGraph:
         idx_chunk, return_dict, process_id = args
         local_intersections = []
         IDX = self.get_IDX()
-        distance = self.config['distance_km']
+        distance = self.config['distance_range']
 
         for i in idx_chunk:
             street = self.result.iloc[i]
