@@ -22,6 +22,6 @@ street_representation: street_name #id or street_name
 
 street_identifier_field: name
 
-EPSG: '32723' #Latin America
+EPSG: False #Set EPSG or use False to default
 
 num_processes: 1
