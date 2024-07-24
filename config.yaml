@@ -13,7 +13,7 @@
 
 street: nodes #nodes or edges
 spatial_operations: intersection #intersection or distance
-distance_km: 100 #distance (depends on the EPSG)
+distance_range: 100 #distance used for buffering streets (depends on the EPSG)
 output_format_adjlist: True 
 output_format_graphml: False
 output_format_pajek: False 
