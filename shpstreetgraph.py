@@ -67,7 +67,10 @@ class ShpStreetGraph:
         """
         self.basename = os.path.basename(file_path)[:-4]
         gdf = gpd.read_file(file_path)
-        return gdf.to_crs(self.config['EPSG'])
+        if self.config['EPSG']:
+            return gdf.to_crs(self.config['EPSG'])
+        else:
+            return gdf
 
     def compute_full_names(self):
         """
