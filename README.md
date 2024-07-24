@@ -63,6 +63,7 @@ The main script can be run from the command line. It requires a path to a shapef
 ### Command Line Arguments
 - `-s`, `--shapefile`: Path to the shapefile (required).
 - `-p`, `--print_head`: Print the head of the GeoDataFrame and exit.
+- `-e`, `--EPSG`: Show the CRS (Coordinate Reference System) of your shapefile.
 - `-h`, `--help`: Show the list of options.
 
 ### Configuration File
