@@ -32,6 +32,5 @@ setup(
         ]
     },
 
-    scripts=['shpstreetgraph.py'],
-    data_files=[('', ['config.yaml'])]
+    scripts=['shpstreetgraph.py']
 )
