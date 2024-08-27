@@ -20,7 +20,7 @@ You can set up this program in two different ways:
 1. Download the .deb package from the releases section:
 
   ```bash
-  wget https://github.com/PabloVrs/ShpStreetGraph/blob/main/shpstreetgraph_1.0.0.deb
+  wget https://github.com/PabloVrs/ShpStreetGraph/raw/main/shpstreetgraph_1.0.0.deb
   ```
 2. Install the package using dpkg:
 
@@ -39,8 +39,8 @@ You can set up this program in two different ways:
  
 2. Download the setup.py and the shpstreetgraph.py files.
   ```bash
-  wget https://github.com/PabloVrs/ShpStreetGraph/blob/main/setup.py
-  wget https://github.com/PabloVrs/ShpStreetGraph/blob/main/shpstreetgraph.py
+  wget https://github.com/PabloVrs/ShpStreetGraph/raw/main/setup.py
+  wget https://github.com/PabloVrs/ShpStreetGraph/raw/main/shpstreetgraph.py
   ```
 
 3. Package the files.
