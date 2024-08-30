@@ -22,7 +22,8 @@ setup(
         'geopandas',
         'networkx',
         'rtree',
-        'pyyaml'
+        'pyyaml',
+        'python>=3.10'
     ],
 
     entry_points={
@@ -31,6 +32,5 @@ setup(
         ]
     },
 
-    scripts=['shpstreetgraph.py'],
-    data_files=[('', ['config.yaml'])]
+    scripts=['shpstreetgraph.py']
 )

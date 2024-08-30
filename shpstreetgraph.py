@@ -3,8 +3,8 @@
 
 # ShpStreetGraph is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as
 # published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
-    
-# ShpStreetGraph is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty 
+
+# ShpStreetGraph is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty
 # of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
 
 # You should have received a copy of the GNU General Public License along with this program.
@@ -14,12 +14,11 @@ import csv
 import yaml
 import os
 import argparse
-from rtree import index
-import multiprocessing
 from datetime import datetime
 import geopandas as gpd
 import pandas as pd
 import networkx as nx
+
 
 class ShpStreetGraph:
     def __init__(self, config_file, shapefile_path):
@@ -68,7 +67,7 @@ class ShpStreetGraph:
         self.basename = os.path.basename(file_path)[:-4]
         gdf = gpd.read_file(file_path)
         if self.config['EPSG']:
-            return gdf.to_crs(epsg = self.config['EPSG'])
+            return gdf.to_crs(epsg=self.config['EPSG'])
         else:
             return gdf
 
@@ -76,6 +75,7 @@ class ShpStreetGraph:
         """
         Compute full names for streets based on configuration.
         """
+
         timestamp = datetime.now().strftime("%Y%m%d%H%M")
         self.output_dir = f"output_{self.basename}_{timestamp}"
         os.makedirs(self.output_dir, exist_ok=True)
@@ -92,85 +92,48 @@ class ShpStreetGraph:
         else:
             self.Id = self.config['street_identifier_field']
             self.result = self.data.dissolve(by=self.Id).reset_index()
+
         return self.result
 
-    def get_IDX(self):
-        """
-        Create and return an R-tree spatial index for the streets.
-
-        Returns:
-            rtree.index.Index: R-tree index.
-        """
-        IDX = index.Index()
-        for idx_, street_ in self.result.iterrows():
-            IDX.insert(idx_, street_.geometry.bounds)
-        return IDX
-
-    def find_intersections(self, args):
+    def find_intersections(self):
         """
         Find intersections between streets.
-
-        Args:
-            args (tuple): Tuple containing index chunk, return dictionary, and process ID.
         """
-        idx_chunk, return_dict, process_id = args
-        local_intersections = []
-        IDX = self.get_IDX()
+        if self.config['spatial_operations'] == 'intersection':
 
-        for i in idx_chunk:
-            street = self.result.iloc[i]
-            bounds = street.geometry.bounds
-            possibles_idx = list(IDX.intersection(bounds))
+            intersections = gpd.sjoin(self.result, self.result, how="inner",
+                                      predicate="intersects", lsuffix="left", rsuffix="right")
 
-            for possible_idx in possibles_idx:
-                if i < possible_idx:
-                    possible_street = self.result.iloc[possible_idx]
-                    if street.geometry.intersects(possible_street.geometry):
-                        local_intersections.append((i, possible_idx))
+        elif self.config['spatial_operations'] == 'distance':
 
-        return_dict[process_id] = local_intersections
+            distance = self.config['distance_range']
 
-    def find_intersections_distance(self, args):
-        """
-        Find intersections within a specified buffer distance.
+            self.result['geometry_buffered'] = self.result['geometry'].buffer(
+                distance)
 
-        Args:
-            args (tuple): Tuple containing index chunk, return dictionary, and process ID.
-        """
-        idx_chunk, return_dict, process_id = args
-        local_intersections = []
-        IDX = self.get_IDX()
-        distance = self.config['distance_range']
+            intersections = gpd.sjoin(self.result.set_geometry(
+                'geometry_buffered'), self.result, how="inner", predicate="intersects", lsuffix="left", rsuffix="right")
 
-        for i in idx_chunk:
-            street = self.result.iloc[i]
-            buffered_geometry = street.geometry.buffer(distance)
-            possibles_idx = list(IDX.intersection(buffered_geometry.bounds))
+            self.result = self.result.drop('geometry_buffered', axis=1)
 
-            for possible_idx in possibles_idx:
-                if i < possible_idx:
-                    possible_street = self.result.iloc[possible_idx]
-                    if possible_street.geometry.intersects(buffered_geometry):
-                        local_intersections.append((i, possible_idx))
+        intersections = intersections[intersections.index <
+                                      intersections['index_right']]
 
-        return_dict[process_id] = local_intersections
+        self.intersections = sorted(
+            list(zip(intersections.index, intersections['index_right'])))
 
-    def create_graph(self, id_intersections):
+    def create_graph(self):
         """
         Create graph representation of streets and intersections.
-
-        Args:
-            id_intersections (list): List of intersecting street indices.
         """
         self.graph = nx.Graph()
-        self.id_intersections = id_intersections
         self.representation = []
 
         if self.config['street_representation'] == 'street_name':
             for idx, street in self.result.iterrows():
                 self.graph.add_node(street[self.Id])
 
-            for i, j in self.id_intersections:
+            for i, j in self.intersections:
                 street1, street2 = self.result.iloc[i][self.Id], self.result.iloc[j][self.Id]
                 self.graph.add_edge(street1, street2)
                 self.representation.append((street1, street2))
@@ -179,11 +142,11 @@ class ShpStreetGraph:
             for idx, street in self.result.iterrows():
                 self.graph.add_node(idx)
 
-            for intersection in self.id_intersections:
+            for intersection in self.intersections:
                 street1, street2 = intersection
                 self.graph.add_edge(street1, street2)
 
-            self.representation = self.id_intersections
+            self.representation = self.intersections
 
         if self.config['street'] == 'edges':
             self.graph = nx.line_graph(self.graph)
@@ -239,12 +202,20 @@ class ShpStreetGraph:
         self.export_graphml()
         self.export_pajek()
 
-    def process_graph(self, id_intersections):
+    def process_graph(self):
         """
         Call graph functions.
         """
-        self.create_graph(id_intersections)
+        self.create_graph()
         self.export_graph()
+
+    def analyze(self):
+        """
+        Analyze the shapefile data and export graph representation.
+        """
+        self.compute_full_names()
+        self.find_intersections()
+        self.process_graph()
 
 
 def get_arguments():
@@ -254,13 +225,13 @@ def get_arguments():
     Returns:
         Namespace: Parsed arguments.
     """
-    parser = argparse.ArgumentParser(description = 'Convert shp to graphs')
+    parser = argparse.ArgumentParser(description='Convert shp to graphs')
     parser.add_argument('-s', '--shapefile', type=str,
-                        required = True, help = 'Path to shapefile')
-    parser.add_argument('-p', '--print_head', action = 'store_true',
-                        help = 'Print the head of the GeoDataFrame')
-    parser.add_argument('-e', '--EPSG', action = 'store_true',
-                        help = "Show the CRS (Coordinate Reference System) of your shapefile")
+                        required=True, help='Path to shapefile')
+    parser.add_argument('-p', '--print_head', action='store_true',
+                        help='Print the head of the GeoDataFrame')
+    parser.add_argument('-e', '--EPSG', action='store_true',
+                        help="Show the CRS (Coordinate Reference System) of your shapefile")
 
     return parser.parse_args()
 
@@ -276,38 +247,12 @@ def main():
         pd.set_option('display.max_columns', None)
         print(analyzer.data.head(3))
         return
-    
+
     if args.EPSG:
         print(repr(analyzer.data.crs))
         return
 
-    analyzer.result = analyzer.compute_full_names()
-    idxi = analyzer.result.index
-
-    num_processes = analyzer.config['num_processes']
-    if multiprocessing.cpu_count() <= num_processes:
-        num_processes = multiprocessing.cpu_count() - 1
-
-    chunk_size = len(idxi) // num_processes
-    idx_chunks = [idxi[i:i + chunk_size]
-                  for i in range(0, len(idxi), chunk_size)]
-
-    with multiprocessing.Manager() as manager:
-        Intersections = manager.dict()
-        args = [(chunk, Intersections, i)
-                for i, chunk in enumerate(idx_chunks)]
-
-        with multiprocessing.Pool(processes=num_processes) as pool:
-            if analyzer.config["spatial_operations"] == 'intersection':
-                pool.map(analyzer.find_intersections, args)
-            elif analyzer.config["spatial_operations"] == 'distance':
-                pool.map(analyzer.find_intersections_distance, args)
-
-        id_intersections = [inter for inter in Intersections.values()
-                            for inter in inter]
-        id_intersections = sorted(id_intersections)
-
-    analyzer.process_graph(id_intersections)
+    analyzer.analyze()
 
 
 if __name__ == "__main__":
