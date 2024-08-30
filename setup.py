@@ -21,7 +21,6 @@ setup(
     install_requires=[
         'geopandas',
         'networkx',
-        'rtree',
         'pyyaml',
         'python>=3.10'
     ],
