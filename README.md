@@ -1,6 +1,6 @@
 # ShpStreetGraph: Spatial Relations of Streets to Graph Representations
 
-ShpStreetGraph is a Python tool designed to convert shapefiles into graph representations. This tool uses the `geopandas` library for handling shapefiles, `networkx` for graph representation, and `rtree` for spatial indexing. It allows for various graph export formats such as CSV, GraphML, and Pajek.
+ShpStreetGraph is a Python tool designed to convert shapefiles into graph representations. This tool uses the `geopandas` library for handling shapefiles, `networkx` for graph representation, and `pyyaml` for flexibility in configuration and user interactions. It allows for various graph export formats such as CSV, GraphML, and Pajek.
 
 ## Table of Contents
 
@@ -87,7 +87,6 @@ street_identifier_field:
 
 EPSG: False #Set EPSG or use False to default
 
-num_processes: 1
 ```
 #### Configuration Parameters
 - `street`: Whether streets are represented as nodes or edges.
@@ -111,8 +110,6 @@ num_processes: 1
     - Fieldn                               |
   ```
 - `EPSG`: The EPSG code for the coordinate reference system to use.
-
-- `num_processes`: Number of processes to use for multiprocessing.
 
 When you are not certain about the street names, you can print the head of the geodataframe:
 ```bash
