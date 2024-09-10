@@ -51,7 +51,7 @@ You can set up this program in two different ways:
 4. Install the package using dpkg:
    
   ```bash
-  sudo dpkg -i shpstreetgraph_1.0.0.deb
+  sudo dpkg -i deb_dist/python3-shpstreetgraph_1.0.0-1_all.deb
   ```
  
 ### Choose the setup option that best suits your preferences and needs.
@@ -80,6 +80,7 @@ output_format_pajek: True
 
 street_representation: id #id or street_name
 
+merge_streets: True #The streets will be merged by the 'street_identifer_field'
 street_identifier_field:
   - Field1
   - Field2
