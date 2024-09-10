@@ -102,6 +102,7 @@ EPSG: False #Set EPSG or use False to default
 
 - `street_representation`: How streets are represented in the graph (street_name or id).
 
+- `merge_streets`: Whether the streets will be unified by identifier.
 - `street_identifier_field`: List of fields or unique field to identify streets.
   ```
   If street_identifier_field is a list:    |    If is a unique field:
