@@ -14,14 +14,14 @@
 street: nodes #nodes or edges
 spatial_operations: intersection #intersection or distance
 distance_range: 100 #distance used for buffering streets (depends on the EPSG)
-output_format_adjlist: True 
+output_format_adjlist: False 
 output_format_graphml: False
 output_format_pajek: False 
 
 street_representation: street_name #id or street_name
 
+merge_streets: False
 street_identifier_field: name
 
 EPSG: False #Set EPSG or use False to default
 
-num_processes: 1

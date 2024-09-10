@@ -75,23 +75,25 @@ class ShpStreetGraph:
         """
         Compute full names for streets based on configuration.
         """
-
         timestamp = datetime.now().strftime("%Y%m%d%H%M")
         self.output_dir = f"output_{self.basename}_{timestamp}"
         os.makedirs(self.output_dir, exist_ok=True)
 
-        if isinstance(self.config['street_identifier_field'], list):
-            fields = self.config['street_identifier_field']
-            self.data["Full Name"] = self.data.apply(
-                lambda row: ' '.join([str(row[field])
-                                     for field in fields if pd.notnull(row[field])])
-                or f'Unknown {row.name + 1}', axis=1)
+        if self.config['merge_streets']:
+            if isinstance(self.config['street_identifier_field'], list):
+                fields = self.config['street_identifier_field']
+                self.data["Full Name"] = self.data.apply(
+                    lambda row: ' '.join([str(row[field])
+                                          for field in fields if pd.notnull(row[field])])
+                    or f'Unknown {row.name + 1}', axis=1)
 
-            self.result = self.data.dissolve(by='Full Name').reset_index()
-            self.Id = "Full Name"
+                self.result = self.data.dissolve(by='Full Name').reset_index()
+                self.Id = "Full Name"
+            else:
+                self.Id = self.config['street_identifier_field']
+                self.result = self.data.dissolve(by=self.Id).reset_index()
         else:
-            self.Id = self.config['street_identifier_field']
-            self.result = self.data.dissolve(by=self.Id).reset_index()
+            self.result = self.data
 
         return self.result
 
