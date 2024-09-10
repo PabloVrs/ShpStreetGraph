@@ -20,7 +20,7 @@ output_format_pajek: False
 
 street_representation: street_name #id or street_name
 
-merge_streets: False
+merge_streets: True #The streets will be merged by the 'street_identifer_field'
 street_identifier_field: name
 
 EPSG: False #Set EPSG or use False to default
