@@ -71,31 +71,34 @@ class ShpStreetGraph:
         else:
             return gdf
 
-    def compute_full_names(self):
+    def read_identifier(self):
         """
-        Compute full names for streets based on configuration.
+        Read the street identifier based on configuration.
         """
         timestamp = datetime.now().strftime("%Y%m%d%H%M")
         self.output_dir = f"output_{self.basename}_{timestamp}"
         os.makedirs(self.output_dir, exist_ok=True)
 
-        if self.config['merge_streets']:
-            if isinstance(self.config['street_identifier_field'], list):
-                fields = self.config['street_identifier_field']
-                self.data["Full Name"] = self.data.apply(
-                    lambda row: ' '.join([str(row[field])
-                                          for field in fields if pd.notnull(row[field])])
-                    or f'Unknown {row.name + 1}', axis=1)
+        if isinstance(self.config['street_identifier_field'], list):
+            fields = self.config['street_identifier_field']
+            column_name = f"Full Name {timestamp}"
+            self.data[column_name] = self.data.apply(
+                lambda row: ' '.join([str(row[field])
+                                      for field in fields if pd.notnull(row[field])])
+                or f'Unknown {row.name + 1}', axis=1)
+            self.Id = column_name
+        else:
+            self.Id = self.config['street_identifier_field']
 
-                self.result = self.data.dissolve(by='Full Name').reset_index()
-                self.Id = "Full Name"
-            else:
-                self.Id = self.config['street_identifier_field']
-                self.result = self.data.dissolve(by=self.Id).reset_index()
+    def compute_full_names(self):
+        """
+        Compute full names for streets based on configuration.
+        """
+
+        if self.config['merge_streets']:
+            self.result = self.data.dissolve(by=self.Id).reset_index()
         else:
             self.result = self.data
-
-        return self.result
 
     def find_intersections(self):
         """
@@ -215,6 +218,7 @@ class ShpStreetGraph:
         """
         Analyze the shapefile data and export graph representation.
         """
+        self.read_identifier()
         self.compute_full_names()
         self.find_intersections()
         self.process_graph()

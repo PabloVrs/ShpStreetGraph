@@ -22,7 +22,8 @@ setup(
         'geopandas',
         'networkx',
         'pyyaml',
-        'python>=3.10'
+        'python>=3.10',
+        'rtree'
     ],
 
     entry_points={
