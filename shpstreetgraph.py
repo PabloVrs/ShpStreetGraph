@@ -88,7 +88,13 @@ class ShpStreetGraph:
                 or f'Unknown {row.name + 1}', axis=1)
             self.Id = column_name
         else:
-            self.Id = self.config['street_identifier_field']
+            field = self.config['street_identifier_field']
+            column_name = f"Full Name {timestamp}"
+            self.data[column_name] = self.data[field].fillna(
+                self.data.index.to_series().apply(
+                    lambda idx: f'Unknown {idx+1}')
+            )
+            self.Id = column_name
 
     def compute_full_names(self):
         """
@@ -104,6 +110,8 @@ class ShpStreetGraph:
         """
         Find intersections between streets.
         """
+        intersections = None
+
         if self.config['spatial_operations'] == 'intersection':
 
             intersections = gpd.sjoin(self.result, self.result, how="inner",
